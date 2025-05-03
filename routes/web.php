@@ -1,6 +1,15 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DataController;
+use App\Http\Controllers\SimulationController;
+
+Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+Route::get('/data', [DataController::class, 'index'])->name('data.index');
+Route::get('/simulation', [SimulationController::class, 'index'])->name('simulation.index');
+Route::post('/simulation/run', [SimulationController::class, 'run'])->name('simulation.run');
+
 
 /*
 |--------------------------------------------------------------------------
