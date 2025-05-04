@@ -12,32 +12,28 @@
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
     <!-- Styles -->
-    {{-- If you’ve set up Laravel Mix, use mix(): --}}
+    {{-- If you’re using Laravel Mix: --}}
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
-    {{-- Otherwise you can just use asset(): --}}
+    {{-- Or, if you’d rather serve directly from public/: --}}
     {{-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> --}}
+</head>
+<body class="font-sans text-gray-900 antialiased">
+    <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
+        <div>
+            <a href="/">
+                <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
+            </a>
+        </div>
+
+        <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
+            {{ $slot }}
+        </div>
+    </div>
 
     <!-- Scripts -->
-    {{-- Again, for Mix: --}}
+    {{-- For Mix: --}}
     <script src="{{ mix('js/app.js') }}" defer></script>
     {{-- Or plain asset: --}}
     {{-- <script src="{{ asset('js/app.js') }}" defer></script> --}}
-</head>
-<body class="font-sans antialiased">
-    <div class="min-h-screen bg-gray-100">
-        @include('layouts.navigation')
-
-        @if (isset($header))
-            <header class="bg-white shadow">
-                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                    {{ $header }}
-                </div>
-            </header>
-        @endif
-
-        <main>
-            {{ $slot }}
-        </main>
-    </div>
 </body>
 </html>
