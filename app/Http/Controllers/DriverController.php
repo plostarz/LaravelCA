@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Driver;    // <— import the Driver model
+use App\Models\Team;      // <— import the Team model
 
 class DriverController extends Controller
 {

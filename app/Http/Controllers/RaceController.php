@@ -3,83 +3,41 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Race;     // ← import the Race model
+use App\Models\Circuit;  // ← import the Circuit model
 
 class RaceController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function index()
-{
-    $races = Race::with('circuit')->get();
-    return view('races.index', compact('races'));
-}
-
-public function create()
-{
-    $circuits = Circuit::pluck('name','id');
-    return view('races.create', compact('circuits'));
-}
-
-public function store(Request $request)
-{
-    $data = $request->validate([
-        'name'       => 'required|string|max:255',
-        'date'       => 'required|date',
-        'circuit_id' => 'required|exists:circuits,id',
-        'season'     => 'required|integer',
-        'round'      => 'required|integer',
-    ]);
-    Race::create($data);
-    return redirect()->route('races.index')->with('success','Race created');
-}
-
-// Implement show, edit, update, destroy similarly
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
     {
-        //
+        // now Race is in scope
+        $races = Race::with('circuit')->get();
+        return view('races.index', compact('races'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    public function create()
     {
-        //
+        // now Circuit is in scope
+        $circuits = Circuit::pluck('name','id');
+        return view('races.create', compact('circuits'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'name'       => 'required|string|max:255',
+            'date'       => 'required|date',
+            'circuit_id' => 'required|exists:circuits,id',
+        ]);
+
+        Race::create($data);
+
+        return redirect()->route('races.index')
+                         ->with('success', 'Race created.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
+    // ... other methods (show, edit, update, destroy) ...
 }

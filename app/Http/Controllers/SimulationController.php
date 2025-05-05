@@ -3,47 +3,56 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Simulation; // ← import the Simulation model
+use App\Models\Race;       // ← import the Race model
 
 class SimulationController extends Controller
 {
-    //
+    /**
+     * Display a listing of the resource.
+     */
     public function index()
-{
-    $simulations = Simulation::with(['user','race'])->get();
-    return view('simulations.index', compact('simulations'));
-}
+    {
+        // now Simulation is in scope
+        $simulations = Simulation::with(['user', 'race'])->get();
+        return view('simulations.index', compact('simulations'));
+    }
 
-public function create()
-{
-    $races = Race::pluck('name','id');
-    return view('simulations.create', compact('races'));
-}
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        $races = Race::pluck('name', 'id');
+        return view('simulations.create', compact('races'));
+    }
 
-public function store(Request $request)
-{
-    $data = $request->validate([
-        'race_id'    => 'required|exists:races,id',
-        'parameters' => 'nullable|string',  // JSON as text or a form input
-    ]);
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        $data = $request->validate([
+            'race_id'    => 'required|exists:races,id',
+            'parameters' => 'nullable|string',
+        ]);
 
-    // Example simulation logic: here you would call a service to compute results
-    $params = json_decode($data['parameters'] ?? '{}', true);
-    $results = [ /* run simulation algorithm */ ];
+        // Example: decode params and perform logic...
+        $params = json_decode($data['parameters'] ?? '{}', true);
 
-    $data['user_id'] = auth()->id();
-    $data['results'] = json_encode($results);
+        // Create the record
+        Simulation::create([
+            'race_id'    => $data['race_id'],
+            'user_id'    => auth()->id(),
+            'parameters' => $data['parameters'],
+            'results'    => json_encode([
+                // ... your simulated results here ...
+            ]),
+        ]);
 
-    Simulation::create($data);
+        return redirect()->route('simulations.index')
+                         ->with('success', 'Simulation run and saved.');
+    }
 
-    return redirect()->route('simulations.index')
-        ->with('success','Simulation created');
-}
-
-public function show(Simulation $simulation)
-{
-    $simulation->load(['user','race']);
-    return view('simulations.show', compact('simulation'));
-}
-
-// edit/update/destroy can be added as needed
+    // ... other methods (show, edit, update, destroy) ...
 }

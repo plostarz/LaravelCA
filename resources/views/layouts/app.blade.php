@@ -19,8 +19,47 @@
 </head>
 <body class="font-sans antialiased">
     <div class="min-h-screen bg-gray-100">
-        @include('layouts.navigation')
+        <!-- Navigation -->
+        <nav class="bg-white shadow">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between h-16">
+                    <div class="flex space-x-4">
+                        <a href="{{ route('dashboard') }}" class="inline-flex items-center px-3 py-2 text-gray-700 hover:text-gray-900">
+                            {{ config('app.name', 'Laravel') }}
+                        </a>
+                        <a href="{{ route('drivers.index') }}" class="inline-flex items-center px-3 py-2 text-gray-600 hover:text-gray-800">
+                            Drivers
+                        </a>
+                        <a href="{{ route('races.index') }}" class="inline-flex items-center px-3 py-2 text-gray-600 hover:text-gray-800">
+                            Races
+                        </a>
+                        <a href="{{ route('teams.index') }}" class="inline-flex items-center px-3 py-2 text-gray-600 hover:text-gray-800">
+                            Teams
+                        </a>
+                        <a href="{{ route('circuits.index') }}" class="inline-flex items-center px-3 py-2 text-gray-600 hover:text-gray-800">
+                            Circuits
+                        </a>
+                        <a href="{{ route('simulations.index') }}" class="inline-flex items-center px-3 py-2 text-gray-600 hover:text-gray-800">
+                            Simulations
+                        </a>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        @guest
+                            <a href="{{ route('login') }}" class="px-3 py-2 text-gray-600 hover:text-gray-800">Login</a>
+                            <a href="{{ route('register') }}" class="px-3 py-2 text-gray-600 hover:text-gray-800">Register</a>
+                        @else
+                            <span class="px-3 py-2 text-gray-600">{{ Auth::user()->name }}</span>
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <button type="submit" class="px-3 py-2 text-gray-600 hover:text-gray-800">Logout</button>
+                            </form>
+                        @endguest
+                    </div>
+                </div>
+            </div>
+        </nav>
 
+        <!-- Page Header -->
         @hasSection('header')
             <header class="bg-white shadow">
                 <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
@@ -29,8 +68,11 @@
             </header>
         @endif
 
-        <main>
-            @yield('content')
+        <!-- Main Content -->
+        <main class="py-6">
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                @yield('content')
+            </div>
         </main>
     </div>
 </body>

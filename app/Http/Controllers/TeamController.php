@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\Driver;    // <— import the Driver model
+use App\Models\Team;      // <— import the Team model
 use Illuminate\Http\Request;
 
 class TeamController extends Controller
