@@ -12,30 +12,34 @@ class DriverController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        //
-    }
+{
+    $drivers = Driver::with('team')->get();
+    return view('drivers.index', compact('drivers'));
+}
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+public function create()
+{
+    $teams = Team::pluck('name','id');
+    return view('drivers.create', compact('teams'));
+}
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
+public function store(Request $request)
+{
+    $data = $request->validate([
+        'name' => 'required|string',
+        'nationality' => 'required|string',
+        'team_id' => 'nullable|exists:teams,id',
+        'date_of_birth' => 'required|date',
+        'image' => 'nullable|image|max:2048',
+    ]);
+    if ($request->hasFile('image')) {
+        $data['image_path'] = $request->file('image')->store('drivers','public');
     }
+    Driver::create($data);
+    return redirect()->route('drivers.index')->with('success','Driver added');
+}
+
+// add show, edit, update, destroy similarly
 
     /**
      * Display the specified resource.

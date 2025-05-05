@@ -12,30 +12,33 @@ class TeamController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        //
-    }
+{
+    $teams = Team::withCount('drivers')->get();
+    return view('teams.index', compact('teams'));
+}
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+public function create()
+{
+    return view('teams.create');
+}
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
+public function store(Request $request)
+{
+    $data = $request->validate([
+        'name' => 'required|string|max:255',
+        'base' => 'nullable|string|max:255',
+        'principal' => 'nullable|string|max:255',
+        'founded_year' => 'nullable|digits:4|integer',
+        'image' => 'nullable|image|max:2048',
+    ]);
+    if ($request->hasFile('image')) {
+        $data['image_path'] = $request->file('image')->store('teams','public');
     }
+    Team::create($data);
+    return redirect()->route('teams.index')->with('success','Team created');
+}
+
+// Implement show, edit, update, destroy similarly
 
     /**
      * Display the specified resource.

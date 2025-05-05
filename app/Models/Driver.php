@@ -10,9 +10,9 @@ class Driver extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'nationality', 'team_id', 'date_of_birth',
+        'name','nationality','team_id','date_of_birth','image_path',
     ];
-
+    
     public function team()
     {
         return $this->belongsTo(Team::class);
