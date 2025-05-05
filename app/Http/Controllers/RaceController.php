@@ -12,30 +12,31 @@ class RaceController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        //
-    }
+{
+    $races = Race::with('circuit')->get();
+    return view('races.index', compact('races'));
+}
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+public function create()
+{
+    $circuits = Circuit::pluck('name','id');
+    return view('races.create', compact('circuits'));
+}
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+public function store(Request $request)
+{
+    $data = $request->validate([
+        'name'       => 'required|string|max:255',
+        'date'       => 'required|date',
+        'circuit_id' => 'required|exists:circuits,id',
+        'season'     => 'required|integer',
+        'round'      => 'required|integer',
+    ]);
+    Race::create($data);
+    return redirect()->route('races.index')->with('success','Race created');
+}
+
+// Implement show, edit, update, destroy similarly
 
     /**
      * Display the specified resource.
