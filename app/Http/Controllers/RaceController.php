@@ -38,6 +38,26 @@ class RaceController extends Controller
         return redirect()->route('races.index')
                          ->with('success', 'Race created.');
     }
+    public function edit(Race $race)
+    {
+        $circuits = Circuit::pluck('name','id');
+        return view('races.edit', compact('race','circuits'));
+    }
+    public function update(Request $request, Race $race)
+    {
+        $data = $request->validate([
+            'name'       => 'required|string|max:255',
+            'date'       => 'required|date',
+            'circuit_id' => 'required|exists:circuits,id',
+            'season'     => 'required|integer|min:1950|max:'.(date('Y')+1),
+            'round'      => 'required|integer|min:1',
+        ]);
 
+        $race->update($data);
+
+        return redirect()
+            ->route('races.index')
+            ->with('success', 'Race updated successfully!');
+    }    
     // ... other methods (show, edit, update, destroy) ...
 }

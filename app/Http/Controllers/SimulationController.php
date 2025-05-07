@@ -69,11 +69,33 @@ class SimulationController extends Controller
     /**
      * Display the specified simulation.
      */
-    public function show(Simulation $simulation)
-    {
-        $simulation->load(['user', 'race']);
-        return view('simulations.show', compact('simulation'));
+    // app/Http/Controllers/SimulationController.php
+
+public function show(Simulation $simulation)
+{
+    // Eager‐load relations
+    $simulation->load(['user', 'race']);
+
+    // Decode JSON into a PHP array
+    $results = json_decode($simulation->results, true);
+
+    // (Optional) build chart data if you’re using Chart.js
+    $chartData = [];
+    foreach ($results as $row) {
+        $chartData[] = [
+            'label' => $row['driver_name'],
+            'data'  => $row['laps'],
+        ];
     }
+
+    // Now pass both simulation _and_ results (and chartData) into the view
+    return view('simulations.show', [
+        'simulation' => $simulation,
+        'results'    => $results,
+        'chartData'  => $chartData,
+    ]);
+}
+
 
     // You can add edit/update/destroy as needed
 }
