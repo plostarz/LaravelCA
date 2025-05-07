@@ -9,7 +9,11 @@ class Team extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'name','base','principal','founded_year','image_path',
+        'name',
+        'base',
+        'principal',
+        'founded_year',
+        'image_path',   // ← add this
     ];
     
     public function drivers()

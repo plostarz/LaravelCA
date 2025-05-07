@@ -1,88 +1,66 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\Driver;    // <— import the Driver model
-use App\Models\Team;      // <— import the Team model
+
+use App\Models\Team;
 use Illuminate\Http\Request;
 
 class TeamController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
-{
-    $teams = Team::withCount('drivers')->get();
-    return view('teams.index', compact('teams'));
-}
-
-public function create()
-{
-    return view('teams.create');
-}
-
-public function store(Request $request)
-{
-    $data = $request->validate([
-        'name' => 'required|string|max:255',
-        'base' => 'nullable|string|max:255',
-        'principal' => 'nullable|string|max:255',
-        'founded_year' => 'nullable|digits:4|integer',
-        'image' => 'nullable|image|max:2048',
-    ]);
-    if ($request->hasFile('image')) {
-        $data['image_path'] = $request->file('image')->store('teams','public');
-    }
-    Team::create($data);
-    return redirect()->route('teams.index')->with('success','Team created');
-}
-
-// Implement show, edit, update, destroy similarly
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
     {
-        //
+        // eager load driver count
+        $teams = Team::withCount('drivers')->get();
+        return view('teams.index', compact('teams'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    public function create()
     {
-        //
+        return view('teams.create');
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'name'         => 'required|string|max:255',
+            'base'         => 'required|string|max:255',
+            'principal'    => 'required|string|max:255',
+            'founded_year' => 'required|integer|min:1900|max:'.(date('Y')+1),
+            'image_path'   => 'nullable|url',
+        ]);
+
+        Team::create($data);
+
+        return redirect()
+            ->route('teams.index')
+            ->with('success','Team added!');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function edit(Team $team)
     {
-        //
+        return view('teams.edit', compact('team'));
+    }
+
+    public function update(Request $request, Team $team)
+    {
+        $data = $request->validate([
+            'name'         => 'required|string|max:255',
+            'base'         => 'required|string|max:255',
+            'principal'    => 'required|string|max:255',
+            'founded_year' => 'required|integer|min:1900|max:'.(date('Y')+1),
+            'image_path'   => 'nullable|url',
+        ]);
+
+        $team->update($data);
+
+        return redirect()
+            ->route('teams.index')
+            ->with('success','Team updated!');
+    }
+
+    public function destroy(Team $team)
+    {
+        $team->delete();
+        return back()->with('success','Team removed');
     }
 }

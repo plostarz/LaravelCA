@@ -39,6 +39,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('drivers', DriverController::class);
     Route::resource('races', RaceController::class);
     Route::resource('simulations', SimulationController::class);
+    Route::resource('circuits', CircuitController::class);
+
 });
 
 require __DIR__.'/auth.php';
