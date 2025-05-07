@@ -38,10 +38,60 @@ class TeamSeeder extends Seeder
                 'founded_year' => 1963,
                 'image_path'   => null,
             ],
+            [
+                'name'         => 'Aston Martin',
+                'base'         => 'Silverstone, UK',
+                'principal'    => 'Mike Krack',
+                'founded_year' => 1913,
+                'image_path'   => null,
+            ],
+            [
+                'name'         => 'Alpine',
+                'base'         => 'Enstone, UK',
+                'principal'    => 'Otmar Szafnauer',
+                'founded_year' => 2021,
+                'image_path'   => null,
+            ],
+            [
+                'name'         => 'Stake Sauber',
+                'base'         => 'Hinwil, Switzerland',
+                'principal'    => 'Andreas Seidl',
+                'founded_year' => 1993,
+                'image_path'   => null,
+            ],
+            [
+                'name'         => 'Haas',
+                'base'         => 'Kannapolis, USA',
+                'principal'    => 'Guenther Steiner',
+                'founded_year' => 2014,
+                'image_path'   => null,
+            ],
+            [
+                'name'         => 'Williams',
+                'base'         => 'Grove, UK',
+                'principal'    => 'James Vowles',
+                'founded_year' => 1977,
+                'image_path'   => null,
+            ],
+            [
+                'name'         => 'AlphaTauri',
+                'base'         => 'Faenza, Italy',
+                'principal'    => 'Franz Tost',
+                'founded_year' => 2020,
+                'image_path'   => null,
+            ],
         ];
 
         foreach ($teams as $data) {
-            Team::create($data);
+            Team::updateOrCreate(
+                ['name' => $data['name']],
+                [
+                    'base'         => $data['base'],
+                    'principal'    => $data['principal'],
+                    'founded_year' => $data['founded_year'],
+                    'image_path'   => $data['image_path'],
+                ]
+            );
         }
     }
 }

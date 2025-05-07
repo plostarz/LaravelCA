@@ -9,130 +9,94 @@ use Illuminate\Support\Facades\Storage;
 
 class DriverController extends Controller
 {
-    /**
-     * Display a listing of the drivers.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $drivers = Driver::all();
         return view('drivers.index', compact('drivers'));
     }
 
-    /**
-     * Show the form for creating a new driver.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         $teams = Team::all();
         return view('drivers.create', compact('teams'));
     }
 
-    /**
-     * Store a newly created driver in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'nationality' => 'required|string|max:255',
-            'team_id' => 'nullable|exists:teams,id',
+        // 1) Validate
+        $data = $request->validate([
+            'name'          => 'required|string|max:255',
+            'nationality'   => 'required|string|max:255',
+            'team_id'       => 'nullable|exists:teams,id',
             'date_of_birth' => 'required|date',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image'         => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-        
+
+        // 2) Handle upload (if any)
         if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('drivers', 'public');
-            $validated['image_path'] = $path;
+            // store on 'public/drivers' => storage/app/public/drivers
+            $data['image'] = $request->file('image')
+                                   ->store('drivers', 'public');
         }
-        
-        Driver::create($validated);
-        
-        return redirect()->route('drivers.index')
+
+        // 3) Create
+        Driver::create($data);
+
+        // 4) Redirect
+        return redirect()
+            ->route('drivers.index')
             ->with('success', 'Driver created successfully');
     }
 
-    /**
-     * Display the specified driver.
-     *
-     * @param  \App\Models\Driver  $driver
-     * @return \Illuminate\Http\Response
-     */
     public function show(Driver $driver)
     {
         return view('drivers.show', compact('driver'));
     }
 
-    /**
-     * Show the form for editing the specified driver.
-     *
-     * @param  \App\Models\Driver  $driver
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Driver $driver)
     {
         $teams = Team::all();
         return view('drivers.edit', compact('driver', 'teams'));
     }
 
-    /**
-     * Update the specified driver in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Driver  $driver
-     * @return \Illuminate\Http\Response
-     */
- public function update(Request $request, Driver $driver)
-{
-    $validated = $request->validate([
-        'name' => 'required|string|max:255',
-        'nationality' => 'required|string|max:255',
-        'team_id' => 'nullable|exists:teams,id',
-        'date_of_birth' => 'required|date',
-        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-    ]);
-    
-    // Handle image upload
-    if ($request->hasFile('image')) {
-        // Delete old image if exists and it's not in the public folder
-        if ($driver->image_path && file_exists(public_path($driver->image_path))) {
-            unlink(public_path($driver->image_path));
-        }
-        
-        // Store new image in public/images directory
-        $file = $request->file('image');
-        $fileName = $driver->id . '_' . time() . '.' . $file->extension();
-        $file->move(public_path('images'), $fileName);
-        $validated['image_path'] = 'images/' . $fileName;
-    }
-    
-    $driver->update($validated);
-    
-    return redirect()->route('drivers.index')
-        ->with('success', 'Driver updated successfully');
-}
+    public function update(Request $request, Driver $driver)
+    {
+        $data = $request->validate([
+            'name'          => 'required|string|max:255',
+            'nationality'   => 'required|string|max:255',
+            'team_id'       => 'nullable|exists:teams,id',
+            'date_of_birth' => 'required|date',
+            'image'         => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
 
-    /**
-     * Remove the specified driver from storage.
-     *
-     * @param  \App\Models\Driver  $driver
-     * @return \Illuminate\Http\Response
-     */
+        if ($request->hasFile('image')) {
+            // delete old (if exists)
+            if ($driver->image && Storage::disk('public')->exists($driver->image)) {
+                Storage::disk('public')->delete($driver->image);
+            }
+
+            // store new
+            $data['image'] = $request->file('image')
+                                   ->store('drivers', 'public');
+        }
+
+        $driver->update($data);
+
+        return redirect()
+            ->route('drivers.index')
+            ->with('success', 'Driver updated successfully');
+    }
+
     public function destroy(Driver $driver)
     {
-        if ($driver->image_path && Storage::disk('public')->exists($driver->image_path)) {
-            Storage::disk('public')->delete($driver->image_path);
+        if ($driver->image && Storage::disk('public')->exists($driver->image)) {
+            Storage::disk('public')->delete($driver->image);
         }
-        
+
         $driver->delete();
-        
-        return redirect()->route('drivers.index')
+
+        return redirect()
+            ->route('drivers.index')
             ->with('success', 'Driver deleted successfully');
     }
 }
