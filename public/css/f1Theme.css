@@ -1,7 +1,8 @@
-/* F1 Theme Dark Mode */
+/* Add these styles to your f1Theme.css file */
+
 body {
     background-color: #121212;
-    color: white;
+    color: #ffffff;
 }
 
 .driver-container {
@@ -10,36 +11,38 @@ body {
     padding: 2rem;
 }
 
+.section-title {
+    color: #ffffff;
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+}
+
 .driver-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
-}
-
-@media (max-width: 768px) {
-    .driver-grid {
-        grid-template-columns: repeat(1, 1fr);
-    }
+    gap: 1.5rem;
 }
 
 .driver-card {
-    text-align: center;
-    background-color: #1a1a1a;
-    border-radius: 0.5rem;
+    background-color: #1e1e1e;
+    border-radius: 0.75rem;
     overflow: hidden;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .driver-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4);
 }
 
 .driver-img-container {
-    width: 150px;
-    height: 150px;
-    margin: 2rem auto 1rem;
+    width: 140px;
+    height: 140px;
+    margin: 0 auto 1rem;
     position: relative;
 }
 
@@ -62,40 +65,35 @@ body {
     border: 4px solid #e10600;
 }
 
-.driver-info {
-    padding: 1.5rem;
-}
-
 .driver-name {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     font-weight: bold;
+    color: #ffffff;
     margin-bottom: 0.5rem;
-    color: white;
 }
 
 .driver-nationality {
     color: #e10600;
-    font-weight: 500;
+    font-weight: 600;
     margin-bottom: 0.5rem;
 }
 
 .driver-details {
     color: #a0a0a0;
-    margin-bottom: 1.5rem;
-    font-size: 0.9rem;
+    font-size: 0.875rem;
+    margin-bottom: 1.25rem;
 }
 
 .driver-actions {
     display: flex;
     justify-content: center;
     gap: 0.5rem;
-    margin-top: 1rem;
 }
 
 .btn-edit {
     background-color: #e10600;
     color: white;
-    padding: 0.5rem 1rem;
+    padding: 0.4rem 1rem;
     border-radius: 0.25rem;
     text-decoration: none;
     font-size: 0.875rem;
@@ -107,9 +105,9 @@ body {
 }
 
 .btn-delete {
-    background-color: #333;
+    background-color: #333333;
     color: white;
-    padding: 0.5rem 1rem;
+    padding: 0.4rem 1rem;
     border-radius: 0.25rem;
     border: none;
     font-size: 0.875rem;
@@ -118,18 +116,19 @@ body {
 }
 
 .btn-delete:hover {
-    background-color: #555;
+    background-color: #454545;
 }
 
 .btn-add-driver {
     background-color: #e10600;
     color: white;
     padding: 0.5rem 1rem;
-    border-radius: 0.25rem;
+    border-radius: 0.375rem;
     text-decoration: none;
     display: inline-flex;
     align-items: center;
     transition: background-color 0.2s;
+    font-weight: 500;
 }
 
 .btn-add-driver:hover {
@@ -137,33 +136,27 @@ body {
 }
 
 .btn-show-more {
-    background-color: #333;
+    background-color: #333333;
     color: white;
     padding: 0.5rem 1.5rem;
-    border-radius: 0.25rem;
+    border-radius: 0.375rem;
     border: none;
     margin: 2rem auto;
     display: block;
     cursor: pointer;
     transition: background-color 0.2s;
+    font-weight: 500;
 }
 
 .btn-show-more:hover {
-    background-color: #444;
-}
-
-.section-title {
-    color: white;
-    font-size: 2rem;
-    margin-bottom: 2rem;
-    text-align: center;
+    background-color: #454545;
 }
 
 .empty-state {
     text-align: center;
     padding: 4rem 2rem;
-    background-color: #1a1a1a;
-    border-radius: 0.5rem;
+    background-color: #1e1e1e;
+    border-radius: 0.75rem;
 }
 
 .empty-img {
@@ -175,6 +168,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    border: 4px solid #e10600;
 }
 
 .empty-title {
@@ -186,4 +180,16 @@ body {
 .empty-message {
     color: #a0a0a0;
     margin-bottom: 2rem;
+}
+
+@media (max-width: 768px) {
+    .driver-grid {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+    .driver-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
