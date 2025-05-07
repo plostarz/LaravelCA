@@ -13,6 +13,34 @@
 
     <!-- Styles -->
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/f1Theme.css') }}" rel="stylesheet">
+    
+    <style>
+        body {
+            background-color: #121212;
+            color: #ffffff;
+        }
+        
+        .bg-gray-100 {
+            background-color: #121212 !important;
+        }
+        
+        .bg-white {
+            background-color: #1e1e1e !important;
+        }
+        
+        .text-gray-600, .text-gray-700, .text-gray-800, .text-gray-900 {
+            color: #e0e0e0 !important;
+        }
+        
+        .shadow {
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5) !important;
+        }
+        
+        .hover\:text-gray-800:hover, .hover\:text-gray-900:hover {
+            color: #ffffff !important;
+        }
+    </style>
 
     <!-- Scripts -->
     <script src="{{ mix('js/app.js') }}" defer></script>
