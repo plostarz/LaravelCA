@@ -3,15 +3,11 @@
 namespace App\View\Components;
 
 use Illuminate\View\Component;
-use Illuminate\View\View;
 
-class AppLayout extends Component
+class AuthLayout extends Component
 {
-    /**
-     * Get the view / contents that represents the component.
-     */
-    public function render(): View
+    public function render()
     {
-        return view('layouts.app');
+        return view('layouts.auth');
     }
 }

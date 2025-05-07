@@ -1,0 +1,98 @@
+.auth-container {
+    display: flex !important;
+    width: 100% !important;
+    max-width: 1000px !important;
+    height: 600px !important;
+    margin: 0 auto !important;
+    border-radius: 12px !important;
+    overflow: hidden !important;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3) !important;
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+}
+
+.auth-form-side {
+    width: 50% !important;
+    background: #121212 !important;
+    /* Dark background */
+    padding: 2.5rem !important;
+    color: #fff !important;
+}
+
+.auth-image-side {
+    width: 50% !important;
+    background: linear-gradient(135deg, #e53e3e 0%, #991b1b 100%) !important;
+    position: relative !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.auth-image-side img {
+    max-width: 80% !important;
+    max-height: 80% !important;
+    object-fit: contain !important;
+}
+
+/* Dark theme text colors */
+.dark-text {
+    color: #ffffff !important;
+}
+
+.dark-text-secondary {
+    color: #b3b3b3 !important;
+}
+
+/* Input styling for dark theme */
+.dark-input {
+    background-color: #2a2a2a !important;
+    border-color: #444 !important;
+    color: white !important;
+}
+
+.dark-input:focus {
+    border-color: #e53e3e !important;
+    box-shadow: 0 0 0 2px rgba(229, 62, 62, 0.3) !important;
+}
+
+/* Fix for the login page container in guest layout */
+body {
+    background-color: #1a1a1a !important;
+}
+
+body>div.min-h-screen {
+    background-color: #1a1a1a !important;
+}
+
+/* Override any child containers */
+body>div.min-h-screen>div.w-full {
+    background: transparent !important;
+    box-shadow: none !important;
+    max-width: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+@media (max-width: 768px) {
+    .auth-container {
+        flex-direction: column !important;
+        height: auto !important;
+        position: relative !important;
+        top: 0 !important;
+        left: 0 !important;
+        transform: none !important;
+        margin: 2rem auto !important;
+    }
+
+    .auth-form-side,
+    .auth-image-side {
+        width: 100% !important;
+    }
+
+    .auth-image-side {
+        min-height: 200px !important;
+        order: -1 !important;
+    }
+}
