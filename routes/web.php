@@ -6,6 +6,8 @@ use App\Http\Controllers\TeamController;
 use App\Http\Controllers\DriverController;
 use App\Http\Controllers\RaceController;
 use App\Http\Controllers\SimulationController;
+use App\Http\Controllers\DashboardController;
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -40,6 +42,11 @@ Route::middleware('auth')->group(function () {
     Route::resource('races', RaceController::class);
     Route::resource('simulations', SimulationController::class);
     Route::resource('circuits', CircuitController::class);
+
+    Route::get('/dashboard', [DashboardController::class, 'index'])
+         ->middleware(['auth','verified'])
+         ->name('dashboard');
+    
 
 });
 
