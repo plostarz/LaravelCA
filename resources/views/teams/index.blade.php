@@ -29,13 +29,25 @@
                    ? $url
                    : ($url ? asset('storage/'.$url) : null);
           @endphp
+        
           @if($src)
-            <img src="{{ $src }}" class="w-12 h-12 rounded object-cover">
+            <div class="w-12 h-12 rounded-full overflow-hidden bg-gray-100 flex items-center justify-center">
+              <img 
+                src="{{ $src }}" 
+                alt="{{ $team->name }} logo"
+                class="object-contain w-full h-full"
+              >
+            </div>
+          @else
+            <div class="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center text-gray-500 text-xs">
+              No Logo
+            </div>
           @endif
         </td>
+        
         <td>
           <a href="{{ route('teams.edit',$team) }}" class="text-indigo-600 hover:underline">
-            Edit
+                    Edit
           </a>
         </td>
       </tr>
