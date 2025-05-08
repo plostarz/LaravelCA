@@ -1,15 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="relative min-h-screen font-sans bg-gray-900">
+<div class="relative min-h-screen bg-gray-900 font-sans">
 
-  {{-- Softer fullscreen background --}}
+  {{-- Smokey Background Overlay --}}
   <div 
-    class="absolute inset-0 bg-cover bg-center z-0" 
-    style="
-      background-image: url('https://regiodeco.com/wp-content/uploads/sites/80/2024/04/ead88ffe-75c1-4838-8bf7-321112f90d5e.jpg');
-      filter: brightness(0.75) blur(1px);
-    "
+    class="absolute inset-0 bg-cover bg-center opacity-30" 
+    style="background-image: url('https://wallpapercave.com/wp/wp8757632.jpg');"
   ></div>
 
   {{-- Content --}}
