@@ -10,7 +10,9 @@
         <h1 class="text-4xl font-extrabold mb-4 flex justify-center items-center gap-3">
             🏎️ Welcome to F1 Pulse
         </h1>
-        <p class="text-lg max-w-2xl mx-auto">Your ultimate destination for live simulations, upcoming races, and everything Formula 1.</p>
+        <p class="text-lg max-w-2xl mx-auto">
+            Your ultimate destination for live simulations, upcoming races, and everything Formula 1.
+        </p>
     </div>
 
     {{-- Upcoming Race Countdown --}}
@@ -67,12 +69,12 @@
                 const s = diff%60;
                 el.textContent = `${h}h ${m}m ${s}s`;
             }
-            tick();
-            setInterval(tick, 1000);
+            tick();                 // initial render
+            setInterval(tick, 1000); // update every second
         }
     </script>
 
-    {{-- Race Stats --}}
+    {{-- Race & Simulation Stats --}}
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 text-center">
         <div class="bg-white shadow rounded-lg p-6">
             <h3 class="text-red-600 text-lg font-semibold">🔥 Next Race</h3>
