@@ -70,6 +70,8 @@
                         <a href="{{ route('simulations.index') }}" class="inline-flex items-center px-3 py-2 text-gray-600 hover:text-gray-800">
                             Simulations
                         </a>
+                        <a href="{{ route('about') }}" class="text-gray-200 hover:text-white">About Us</a>
+
                     </div>
                     <div class="flex items-center space-x-4">
                         @guest
