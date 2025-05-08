@@ -22,8 +22,8 @@ Welcome to **F1 Pulse**, a dynamic Formula 1 web platform built with **Laravel**
 To get the app running locally:
 
 - Clone the repository:
-  ```bash
-  git clone https://github.com/yourusername/f1-pulse.git
+  
+  git clone https://github.com/plostarz/LaravelCA.git
   cd f1-pulse
 -Install PHP dependencies:composer install
 -Install and compile front-end assets:npm install && npm run build
