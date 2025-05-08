@@ -39,9 +39,11 @@ Route::middleware('auth')->group(function () {
     Route::resource('circuits', CircuitController::class);
     Route::resource('teams', TeamController::class);
     Route::resource('drivers', DriverController::class);
+    
     Route::resource('races', RaceController::class);
     Route::resource('simulations', SimulationController::class);
     Route::resource('circuits', CircuitController::class);
+    Route::view('/about', 'about')->name('about');
 
     Route::get('/dashboard', [DashboardController::class, 'index'])
          ->middleware(['auth','verified'])
